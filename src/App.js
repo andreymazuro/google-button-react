@@ -20,9 +20,10 @@ class App extends Component {
         'height': 50,
         'longtitle': true,
         'onsuccess': this.onSignIn
-      });
-    });
+      })
+    })
   }
+
 
   getUserName = (googleUser) => {
     var profile = googleUser.getBasicProfile()
@@ -44,7 +45,7 @@ class App extends Component {
   hideNameAndButton = () => {
     this.setState({
       username: '',
-      visible:false
+      visible: false
     })
   }
 
