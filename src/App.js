@@ -25,6 +25,7 @@ class App extends Component {
   componentDidMount() {
     client()
     .then((gapi) =>  {
+      console.log(gapi.auth2.isSignedIn.get())
       gapi.signin2.render('my-signin2', {
         'scope': 'https://www.googleapis.com/auth/plus.login',
         'width': 250,
