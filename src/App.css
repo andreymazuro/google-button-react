@@ -2,12 +2,12 @@
   display: none;
 }
 
-#my-signin2{
+#google-signin-button {
   margin-top: 5px;
   width: 100%;
 }
 
-#my-signin2 > div{
+#google-signin-button > div {
   margin: 0 auto;
   margin-top: 20px;
 }

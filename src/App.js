@@ -1,30 +1,29 @@
 import React, { Component } from 'react';
-import './App.css';
 import client from 'google-client-api'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
+import {IconMenu, MenuItem, IconButton, AppBar, Avatar} from 'material-ui';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import Avatar from 'material-ui/Avatar';
+import {getUserName, getImageUrl} from './storage'
+import './App.css';
 injectTapEventPlugin();
 
 class App extends Component {
   constructor(){
     super()
-    this.state={
-      username: '',
-      visible: false,
-      logged: false
+    this.state= {
+      authorizedUser: null
     }
   }
 
   componentDidMount() {
+    this.renderSignInButton()
+  }
+
+  renderSignInButton() {
     client()
     .then((gapi) =>  {
-      gapi.signin2.render('my-signin2', {
+      gapi.signin2.render('google-signin-button', {
         'scope': 'https://www.googleapis.com/auth/plus.login',
         'width': 250,
         'height': 50,
@@ -35,34 +34,21 @@ class App extends Component {
     })
   }
 
-  getUserName = (googleUser) => {
-    var profile = googleUser.getBasicProfile()
-    return profile.getName()
-  }
+  isAuthorized = () => this.state.authorizedUser !== null
 
-  getImageUrl = (googleUser) => {
-    var profile = googleUser.getBasicProfile()
-    return profile.getImageUrl()
-  }
-
-  showUserName = (name) => {
-    const username = this.getUserName(name)
-    const image = this.getImageUrl(name)
-    this.setState({username, image})
+  showUserName = (user) => {
+    const authorizedUser = getUserName(user)
+    const image = getImageUrl(user)
+    this.setState({authorizedUser: {name:authorizedUser, image: image}})
   }
 
   onSignIn = (googleUser) => {
     this.showUserName(googleUser)
-    this.setState({
-      visible:true,
-      logged: true
-    })
   }
 
   hideNameAndButton = () => {
     this.setState({
-      username: '',
-      visible: false
+      authorizedUser: null
     })
   }
 
@@ -70,26 +56,20 @@ class App extends Component {
     client()
     .then((gapi) => gapi.auth2.getAuthInstance().signOut())
     .then(this.hideNameAndButton())
-    .then(this.setState({
-      logged:false,
-      username: ''
-    }))
   }
 
   render() {
     return (
       <MuiThemeProvider>
         <div>
-          <div>
-            <AppBar
-              title={this.state.username}
-              iconElementLeft={this.state.logged? <Avatar src={this.state.image} /> : null}
-              iconElementRight={this.state.logged ? <Logged signOut={this.signOut}/> : null}
-            />
-          </div>
-          <div id="my-signin2" className={this.state.visible? 'hidden':'main-btn'}></div>
-        </div>
-      </MuiThemeProvider>
+          <AppBar
+            title={this.isAuthorized()? this.state.authorizedUser.name : null}
+            iconElementLeft={this.isAuthorized()? <Avatar src={this.state.authorizedUser.image} /> : null}
+            iconElementRight={this.isAuthorized()? <Logged signOut={this.signOut}/> : null}
+          />
+        <div id="google-signin-button" className={this.isAuthorized()? 'hidden':'main-btn'}></div>
+      </div>
+    </MuiThemeProvider>
     );
   }
 }
