@@ -7,7 +7,6 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
-import FlatButton from 'material-ui/FlatButton';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import Avatar from 'material-ui/Avatar';
 injectTapEventPlugin();
@@ -95,14 +94,6 @@ class App extends Component {
   }
 }
 
-class Login extends Component {
-  static muiName = 'FlatButton';
-  render() {
-    return (
-      <FlatButton {...this.props} label="Login" />
-    );
-  }
-}
 
 const Logged = (props) => (
   <IconMenu
