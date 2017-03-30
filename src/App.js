@@ -52,7 +52,7 @@ class App extends Component {
     this.setState({username, image})
   }
 
-   onSignIn = (googleUser) => {
+  onSignIn = (googleUser) => {
     this.showUserName(googleUser)
     this.setState({
       visible:true,
@@ -71,20 +71,21 @@ class App extends Component {
     client()
     .then((gapi) => gapi.auth2.getAuthInstance().signOut())
     .then(this.hideNameAndButton())
-    .then(this.setState({logged:false}))
+    .then(this.setState({
+      logged:false,
+      username: ''
+    }))
   }
-
-
 
   render() {
     return (
       <MuiThemeProvider>
         <div>
-          <div className={this.state.visible? '':'hidden'}>
+          <div>
             <AppBar
               title={this.state.username}
-              iconElementLeft={<Avatar src={this.state.image} />}
-              iconElementRight={this.state.logged ? <Logged signOut={this.signOut}/> : <Login />}
+              iconElementLeft={this.state.logged? <Avatar src={this.state.image} /> : null}
+              iconElementRight={this.state.logged ? <Logged signOut={this.signOut}/> : null}
             />
           </div>
           <div id="my-signin2" className={this.state.visible? 'hidden':'main-btn'}></div>

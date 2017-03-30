@@ -3,10 +3,11 @@
 }
 
 #my-signin2{
-  margin-top: 50px;
+  margin-top: 5px;
   width: 100%;
 }
 
 #my-signin2 > div{
   margin: 0 auto;
+  margin-top: 20px;
 }
