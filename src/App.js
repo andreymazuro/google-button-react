@@ -4,7 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import {IconMenu, MenuItem, IconButton, AppBar, Avatar} from 'material-ui';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import {getUserName, getImageUrl} from './storage'
+import {getUserName, getImageUrl} from './authUtils'
 import './App.css';
 injectTapEventPlugin();
 
@@ -65,7 +65,7 @@ class App extends Component {
           <AppBar
             title={this.isAuthorized()? this.state.authorizedUser.name : null}
             iconElementLeft={this.isAuthorized()? <Avatar src={this.state.authorizedUser.image} /> : null}
-            iconElementRight={this.isAuthorized()? <Logged signOut={this.signOut}/> : null}
+            iconElementRight={this.isAuthorized()? <UserMenu signOut={this.signOut}/> : null}
           />
         <div id="google-signin-button" className={this.isAuthorized()? 'hidden':'main-btn'}></div>
       </div>
@@ -75,7 +75,7 @@ class App extends Component {
 }
 
 
-const Logged = (props) => (
+const UserMenu = (props) => (
   <IconMenu
     iconButtonElement={
       <IconButton><MoreVertIcon /></IconButton>
@@ -87,6 +87,6 @@ const Logged = (props) => (
   </IconMenu>
 );
 
-Logged.muiName = 'IconMenu';
+UserMenu.muiName = 'IconMenu';
 
 export default App;
