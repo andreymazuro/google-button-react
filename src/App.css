@@ -1,13 +1,7 @@
-.hidden {
+.btn-hidden {
   display: none;
 }
 
-#google-signin-button {
-  margin-top: 5px;
-  width: 100%;
-}
-
 #google-signin-button > div {
-  margin: 0 auto;
-  margin-top: 20px;
+  margin: 30px auto;
 }
